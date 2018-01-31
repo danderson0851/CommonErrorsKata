@@ -14,7 +14,7 @@ namespace CommonErrors
         private readonly string[] _files;
         private readonly SynchronizationContext _synchronizationContext;
         private int _i = 100;
-        private string _currentBaseName = null;
+        private string _visibleImagePath = null;
         private readonly string[] _possibleAnswers = null;
 
         public CommonErrorsForm()
@@ -23,7 +23,7 @@ namespace CommonErrors
             _synchronizationContext = SynchronizationContext.Current;
             _files = Directory.GetFiles(Environment.CurrentDirectory +  @"..\..\..\ErrorPics");
             _possibleAnswers = new [] { "Missing File", "null instance", "divide by zero" };
-            _possibleAnswers = _files.Select(f=>f.Split(@"\".ToCharArray()).Last().Replace(".png", " ")).ToArray();
+            _possibleAnswers = _files.Select(f => Path.GetFileName(f)?.Replace(".png", "")).ToArray();
             lstAnswers.DataSource = _possibleAnswers;
             _answerQueue = new AnswerQueue<TrueFalseAnswer>(15);
             Next();
@@ -46,16 +46,16 @@ namespace CommonErrors
         {
             _i = 100;
             var selected = _possibleAnswers[lstAnswers.SelectedIndex];
-            if (selected != null && selected == (string) lstAnswers.SelectedItem)
+            if (selected != null && selected == _visibleImagePath)
             {
-               _answerQueue.Enqueue(new TrueFalseAnswer(true));
+                _answerQueue.Enqueue(new TrueFalseAnswer(true));
             }
             else
             {
                 _answerQueue.Enqueue(new TrueFalseAnswer(false));
             }
 
-            var tokens = _currentBaseName.Split(' ');
+            var tokens = _visibleImagePath.Split(' ');
             //TODO:  Figure out what is a valid answer.
             
             Next();
@@ -70,7 +70,7 @@ namespace CommonErrors
             }
             label1.Text = _answerQueue.Grade.ToString() + "%";
             var file = _files.GetRandom();
-            _currentBaseName= Path.GetFileName(file);
+            _visibleImagePath= Path.GetFileName(file)?.Replace(".png","");
             pbImage.ImageLocation = file;
         }
 
