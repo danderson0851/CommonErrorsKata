@@ -11,14 +11,13 @@ namespace CommonErrorsKata
 {
     public partial class CommonErrorsForm : Form
     {
-        private readonly AnswerQueue<TrueFalseAnswer> _answerQueue;
         private readonly string[] _files;
         private readonly SynchronizationContext _synchronizationContext;
         private int _i = 100;
         private string _visibleImagePath;
         private readonly string[] _possibleAnswers;
 
-        public AnswerQueue<TrueFalseAnswer> AnswerQueue => _answerQueue;
+        public AnswerQueue<TrueFalseAnswer> AnswerQueue { get; }
 
         public CommonErrorsForm()
         {
@@ -28,7 +27,7 @@ namespace CommonErrorsKata
             _possibleAnswers = new [] { "Missing File", "null instance", "divide by zero" };
             _possibleAnswers = _files.Select(f => Path.GetFileName(f)?.Replace(".png", "")).ToArray();
             lstAnswers.DataSource = _possibleAnswers;
-            _answerQueue = new AnswerQueue<TrueFalseAnswer>(15);
+            AnswerQueue = new AnswerQueue<TrueFalseAnswer>(15);
             Next();
             lstAnswers.Click += LstAnswers_Click;
             StartTimer();
