@@ -1,12 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommonErrors.Shared;
+using CommonErrorsKata.Properties;
 
-namespace CommonErrors
+namespace CommonErrorsKata
 {
     public partial class CommonErrorsForm : Form
     {
@@ -14,8 +15,10 @@ namespace CommonErrors
         private readonly string[] _files;
         private readonly SynchronizationContext _synchronizationContext;
         private int _i = 100;
-        private string _visibleImagePath = null;
-        private readonly string[] _possibleAnswers = null;
+        private string _visibleImagePath;
+        private readonly string[] _possibleAnswers;
+
+        public AnswerQueue<TrueFalseAnswer> AnswerQueue => _answerQueue;
 
         public CommonErrorsForm()
         {
@@ -48,27 +51,26 @@ namespace CommonErrors
             var selected = _possibleAnswers[lstAnswers.SelectedIndex];
             if (selected != null && selected == _visibleImagePath)
             {
-                _answerQueue.Enqueue(new TrueFalseAnswer(true));
+                AnswerQueue.Enqueue(new TrueFalseAnswer(true));
             }
             else
             {
-                _answerQueue.Enqueue(new TrueFalseAnswer(false));
+                AnswerQueue.Enqueue(new TrueFalseAnswer(false));
             }
 
-            var tokens = _visibleImagePath.Split(' ');
-            //TODO:  Figure out what is a valid answer.
+            
             
             Next();
         }
         private void Next()
         {
-            if (_answerQueue.Count == 15 && _answerQueue.Grade >= 98)
+            if (AnswerQueue.Count == 15 && AnswerQueue.Grade >= 98)
             {
-                MessageBox.Show("Congratulations you've defeated me!");
+                MessageBox.Show(Resources.CommonErrorsForm_Next_Congratulations_you_ve_defeated_me_);
                 Application.Exit();
                 return;
             }
-            label1.Text = _answerQueue.Grade.ToString() + "%";
+            label1.Text = AnswerQueue.Grade + Resources.CommonErrorsForm_Next__;
             var file = _files.GetRandom();
             _visibleImagePath = Path.GetFileName(file)?.Replace(".png","");
             pbImage.ImageLocation = file;
@@ -76,15 +78,15 @@ namespace CommonErrors
 
         public void UpdateProgress(int value)
         {
-            _synchronizationContext.Post(new SendOrPostCallback(x => {
+            _synchronizationContext.Post(x => {
                 progress.Value = value;
-            }), value);
+            }, value);
         }
         public void Message(string value)
         {
-            _synchronizationContext.Post(new SendOrPostCallback(x => {
+            _synchronizationContext.Post(x => {
                 MessageBox.Show(value);
-            }), value);
+            }, value);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

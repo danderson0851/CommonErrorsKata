@@ -114,4 +114,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CommonErrorsForm_Next_Congratulations_you_ve_defeated_me_" xml:space="preserve">
+    <value>Congratulations you've defeated me!</value>
+  </data>
+  <data name="CommonErrorsForm_Next__" xml:space="preserve">
+    <value>%</value>
+  </data>
 </root>
