@@ -22,7 +22,8 @@ namespace CommonErrors
             InitializeComponent();
             _synchronizationContext = SynchronizationContext.Current;
             _files = Directory.GetFiles(Environment.CurrentDirectory +  @"..\..\..\ErrorPics");
-            _possibleAnswers = new string[] { "Missing File", "null instance", "divide by zero" };
+            _possibleAnswers = new [] { "Missing File", "null instance", "divide by zero" };
+            _possibleAnswers = _files.Select(f=>f.Split(@"\".ToCharArray()).Last().Replace(".png", " ")).ToArray();
             lstAnswers.DataSource = _possibleAnswers;
             _answerQueue = new AnswerQueue<TrueFalseAnswer>(15);
             Next();
@@ -45,6 +46,11 @@ namespace CommonErrors
         {
             _i = 100;
             var selected = _possibleAnswers[lstAnswers.SelectedIndex];
+            if (selected != null && selected == (string) lstAnswers.SelectedItem)
+            {
+                //_answerQueue.Enqueue(new);
+
+            }
             var tokens = _currentBaseName.Split(' ');
             //TODO:  Figure out what is a valid answer.
             _answerQueue.Enqueue(new TrueFalseAnswer(true));
