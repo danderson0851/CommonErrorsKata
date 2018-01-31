@@ -48,12 +48,16 @@ namespace CommonErrors
             var selected = _possibleAnswers[lstAnswers.SelectedIndex];
             if (selected != null && selected == (string) lstAnswers.SelectedItem)
             {
-                //_answerQueue.Enqueue(new);
-
+               _answerQueue.Enqueue(new TrueFalseAnswer(true));
             }
+            else
+            {
+                _answerQueue.Enqueue(new TrueFalseAnswer(false));
+            }
+
             var tokens = _currentBaseName.Split(' ');
             //TODO:  Figure out what is a valid answer.
-            _answerQueue.Enqueue(new TrueFalseAnswer(true));
+            
             Next();
         }
         private void Next()
