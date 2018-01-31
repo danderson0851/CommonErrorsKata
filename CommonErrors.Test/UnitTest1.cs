@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommonErrors.Shared;
 using NUnit.Framework;
-using CommonErrorsKata.Shared;
 
 namespace CommonErrors.Test
 {
@@ -20,7 +20,9 @@ namespace CommonErrors.Test
 
             //Act
             for (int i = 0; i < size+1; i++)
+            {
                 stack.Enqueue(new TrueFalseAnswer(true));
+            }
 
             //Assert
             Assert.IsTrue(stack.Count <= 10);
@@ -32,15 +34,22 @@ namespace CommonErrors.Test
             //Arrange
             var size = 10;
             var stack = new AnswerQueue<TrueFalseAnswer>(size);
-            stack.Enqueue(new TrueFalseAnswer(false));
-            for (var i =0; i< 10; i++)
+            NewMethod(stack);
+            for (var i = 0; i < 10; i++)
+            {
                 stack.Enqueue(new TrueFalseAnswer(true));
-            
+            }
+
             //Act
             var grade = stack.Grade;
-            
+
             //Assert
             Assert.AreEqual(100, grade);
+        }
+
+        private static void NewMethod(AnswerQueue<TrueFalseAnswer> stack)
+        {
+            stack.Enqueue(new TrueFalseAnswer(false));
         }
 
         [Test]

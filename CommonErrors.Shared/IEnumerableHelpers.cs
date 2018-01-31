@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace CommonErrorsKata.Shared
+namespace CommonErrors.Shared
 {
     public static class IEnumerableHelpers
     {
@@ -14,7 +14,11 @@ namespace CommonErrorsKata.Shared
         /// <returns></returns>
         public static T GetRandom<T>(this IEnumerable<T> collection)
         {
-            if (collection == null || collection.Count() == 0) return default(T);
+            if (collection == null || collection.Count() == 0)
+            {
+                return default(T);
+            }
+
             var rand = new Random(DateTime.Now.Millisecond);
             var index = rand.Next(collection.Count());
             return collection.ToArray()[index];
