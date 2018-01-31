@@ -41,16 +41,15 @@ namespace CommonErrors
                 Message("Need to be quicker on your feet next time!  Try again...");
             });
         }
-
         private void LstAnswers_Click(object sender, EventArgs e)
         {
             _i = 100;
+            var selected = _possibleAnswers[lstAnswers.SelectedIndex];
             var tokens = _currentBaseName.Split(' ');
             //TODO:  Figure out what is a valid answer.
             _answerQueue.Enqueue(new TrueFalseAnswer(true));
             Next();
         }
-
         private void Next()
         {
             if (_answerQueue.Count == 15 && _answerQueue.Grade >= 98)
