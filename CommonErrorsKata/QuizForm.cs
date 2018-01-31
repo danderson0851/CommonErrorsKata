@@ -70,7 +70,7 @@ namespace CommonErrors
             }
             label1.Text = _answerQueue.Grade.ToString() + "%";
             var file = _files.GetRandom();
-            _visibleImagePath= Path.GetFileName(file)?.Replace(".png","");
+            _visibleImagePath = Path.GetFileName(file)?.Replace(".png","");
             pbImage.ImageLocation = file;
         }
 
