@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommonErrors.Shared;
+﻿using CommonErrors.Shared;
 using NUnit.Framework;
 
 namespace CommonErrors.Test
@@ -46,12 +41,6 @@ namespace CommonErrors.Test
             //Assert
             Assert.AreEqual(100, grade);
         }
-
-        private static void NewMethod(AnswerQueue<TrueFalseAnswer> stack)
-        {
-            stack.Enqueue(new TrueFalseAnswer(false));
-        }
-
         [Test]
         public void ShouldReturnExpectedAverage()
         {
