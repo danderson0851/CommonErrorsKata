@@ -16,7 +16,7 @@ namespace CommonErrorsKata
         private int _i = 100;
         private string _visibleImagePath;
         private readonly string[] _possibleAnswers;
-        private readonly int _maxAnswers = 5;
+        private readonly int _maxAnswers = 15;
         public AnswerQueue<TrueFalseAnswer> AnswerQueue { get; }
         public CommonErrorsForm()
         {
@@ -25,7 +25,7 @@ namespace CommonErrorsKata
             _files = Directory.GetFiles(Environment.CurrentDirectory + @"..\..\..\ErrorPics");
             _possibleAnswers = _files.Select(f => Path.GetFileName(f)?.Replace(".png", "")).ToArray();
             lstAnswers.DataSource = _possibleAnswers;
-            AnswerQueue = new AnswerQueue<TrueFalseAnswer>(15);
+            AnswerQueue = new AnswerQueue<TrueFalseAnswer>(_maxAnswers);
             Next();
             lstAnswers.Click += LstAnswers_Click;
             StartTimer();
