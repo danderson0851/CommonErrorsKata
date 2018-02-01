@@ -16,6 +16,7 @@ namespace CommonErrorsKata
         private int _i = 100;
         private string _visibleImagePath;
         private readonly string[] _possibleAnswers;
+        private readonly int _maxAnswers = 15;
 
         public AnswerQueue<TrueFalseAnswer> AnswerQueue { get; }
 
@@ -43,6 +44,7 @@ namespace CommonErrorsKata
                 Message("Need to be quicker on your feet next time!  Try again...");
             });
         }
+
         private void LstAnswers_Click(object sender, EventArgs e)
         {
             _i = 100;
@@ -56,13 +58,13 @@ namespace CommonErrorsKata
                 AnswerQueue.Enqueue(new TrueFalseAnswer(false));
             }
 
-            
-            
+
+
             Next();
         }
         private void Next()
         {
-            if (AnswerQueue.Count == 15 && AnswerQueue.Grade >= 98)
+            if (AnswerQueue.Count == _maxAnswers && AnswerQueue.Grade >= 98)
             {
                 MessageBox.Show(Resources.CommonErrorsForm_Next_Congratulations_you_ve_defeated_me_);
                 Application.Exit();

@@ -41,6 +41,12 @@ namespace CommonErrors.Test
             //Assert
             Assert.AreEqual(100, grade);
         }
+
+        private static void NewMethod(AnswerQueue<TrueFalseAnswer> stack)
+        {
+            stack.Enqueue(new TrueFalseAnswer(false));
+        }
+
         [Test]
         public void ShouldReturnExpectedAverage()
         {
