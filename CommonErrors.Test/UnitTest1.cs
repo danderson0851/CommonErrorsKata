@@ -1,6 +1,5 @@
 ﻿using CommonErrors.Shared;
 using NUnit.Framework;
-
 namespace CommonErrors.Test
 {
     [TestFixture]
@@ -12,41 +11,31 @@ namespace CommonErrors.Test
             //Arrange
             var size = 10;
             var stack = new AnswerQueue<TrueFalseAnswer>(size);
-
             //Act
             for (int i = 0; i < size+1; i++)
             {
                 stack.Enqueue(new TrueFalseAnswer(true));
             }
-
             //Assert
             Assert.IsTrue(stack.Count <= 10);
         }
-
         [Test]
         public void ShouldForgetAtCapacity()
         {
             //Arrange
             var size = 10;
             var stack = new AnswerQueue<TrueFalseAnswer>(size);
-            NewMethod(stack);
+            stack.Enqueue(new TrueFalseAnswer(false));
             for (var i = 0; i < 10; i++)
             {
                 stack.Enqueue(new TrueFalseAnswer(true));
             }
-
             //Act
             var grade = stack.Grade;
 
             //Assert
             Assert.AreEqual(100, grade);
         }
-
-        private static void NewMethod(AnswerQueue<TrueFalseAnswer> stack)
-        {
-            stack.Enqueue(new TrueFalseAnswer(false));
-        }
-
         [Test]
         public void ShouldReturnExpectedAverage()
         {

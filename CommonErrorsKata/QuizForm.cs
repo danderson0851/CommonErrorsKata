@@ -16,15 +16,13 @@ namespace CommonErrorsKata
         private int _i = 100;
         private string _visibleImagePath;
         private readonly string[] _possibleAnswers;
-        private readonly int _maxAnswers = 15;
-
+        private readonly int _maxAnswers = 5;
         public AnswerQueue<TrueFalseAnswer> AnswerQueue { get; }
-
         public CommonErrorsForm()
         {
             InitializeComponent();
             _synchronizationContext = SynchronizationContext.Current;
-            _files = Directory.GetFiles(Environment.CurrentDirectory +  @"..\..\..\ErrorPics");
+            _files = Directory.GetFiles(Environment.CurrentDirectory + @"..\..\..\ErrorPics");
             _possibleAnswers = _files.Select(f => Path.GetFileName(f)?.Replace(".png", "")).ToArray();
             lstAnswers.DataSource = _possibleAnswers;
             AnswerQueue = new AnswerQueue<TrueFalseAnswer>(15);
@@ -49,17 +47,8 @@ namespace CommonErrorsKata
         {
             _i = 100;
             var selected = _possibleAnswers[lstAnswers.SelectedIndex];
-            if (selected != null && selected == _visibleImagePath)
-            {
-                AnswerQueue.Enqueue(new TrueFalseAnswer(true));
-            }
-            else
-            {
-                AnswerQueue.Enqueue(new TrueFalseAnswer(false));
-            }
-
-
-
+            var correct = selected != null && selected == _visibleImagePath;
+            AnswerQueue.Enqueue(new TrueFalseAnswer(correct));
             Next();
         }
         private void Next()
@@ -72,19 +61,21 @@ namespace CommonErrorsKata
             }
             label1.Text = AnswerQueue.Grade + Resources.CommonErrorsForm_Next__;
             var file = _files.GetRandom();
-            _visibleImagePath = Path.GetFileName(file)?.Replace(".png","");
+            _visibleImagePath = Path.GetFileName(file)?.Replace(".png", "");
             pbImage.ImageLocation = file;
         }
 
         public void UpdateProgress(int value)
         {
-            _synchronizationContext.Post(x => {
+            _synchronizationContext.Post(x =>
+            {
                 progress.Value = value;
             }, value);
         }
         public void Message(string value)
         {
-            _synchronizationContext.Post(x => {
+            _synchronizationContext.Post(x =>
+            {
                 MessageBox.Show(value);
             }, value);
         }
